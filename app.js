@@ -13,7 +13,6 @@ app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: true }))
 
 let personLogin = undefined
-console.log('reassign personLogin')
 
 app.get('/login', (req, res) => {
     if (!personLogin) {
@@ -40,12 +39,15 @@ app.post('/login', (req, res) => {
 
 app.get('/', (req, res) => {
     if (personLogin) {
-        console.log('no reassign')
-        return res.send(`Welcome! ${personLogin.firstName}`)
+        return res.render('success', { personLogin })
     } else {
-        console.log('user is undeifned')
         return res.redirect('/login')
     }    
+})
+
+app.get('/logout', (req, res) => {
+    personLogin = undefined
+    return res.redirect('/login')
 })
 
 
