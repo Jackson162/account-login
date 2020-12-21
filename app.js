@@ -3,6 +3,7 @@ const exhbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
+const cookieParser = require('cookie-parser')
 
 const routes = require('./routes/index')
 require('./config/mongoose')
@@ -25,8 +26,11 @@ app.use(session({
     }
 }))
 
+app.use(cookieParser('authorizedUser'))
+
 app.use(routes)
 
 app.listen(port, () => {
     console.log(`This server is listening to http://localhost:${port}`)
 })
+

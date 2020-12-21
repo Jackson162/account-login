@@ -3,7 +3,8 @@ const router = express.Router()
 const User = require('../../models/user')
 
 router.get('/', (req, res) => {
-    if (req.get('cookie').includes(req.session.id)) {
+    console.log('sid from latest cookie', req.signedCookies['connect.sid'])
+    if (req.signedCookies['connect.sid'] === req.session.id) {
          return User.findById(req.session.user)
                  .lean()
                  .then(user => res.render('success', { user }))
